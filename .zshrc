@@ -116,7 +116,7 @@ export NVM_DIR="${nvm_path}"
 
 [ -s "${brew_opt_path}/nvm/nvm.sh" ] && \. "${brew_opt_path}/nvm/nvm.sh"  # This loads nvm
 [ -s "${brew_opt_path}/nvm/etc/bash_completion.d/nvm" ] && \. "${brew_opt_path}/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-source ~/.oh-my-zsh/powerlevel10k/powerlevel10k.zsh-theme
+source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # aliases
 alias ls="ls -p -G"
@@ -136,7 +136,7 @@ alias glo="git log --graph --decorate --pretty=oneline --abbrev-commit"
 
 # To customize prompt, run `p10k configure` or edit ~/.oh-my-zsh/.p10k.zsh.
 # Power Level 10k used for customizing the
-[[ ! -f ~/.oh-my-zsh/p10k.zsh ]] || source ~/.oh-my-zsh/.p10k.zsh
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # z jump command (https://github.com/rupa/z)
 . ~/.oh-my-zsh/z.sh
