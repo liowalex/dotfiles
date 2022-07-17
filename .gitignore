@@ -12,5 +12,6 @@
 # Includelist files and folders
 !.zshrc
 !.p10k.zsh
+!/images/
 !/.oh-my-zsh/
 !/powerlevel10k/

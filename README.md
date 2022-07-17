@@ -14,3 +14,6 @@ Some of the packages used in !oh-my-zsh were installed using homebrew. Was not s
  * Caveat: zsh shell seems significantly slower when adding more plugins
 * Add a plugin manager (antigen or antibody)
 * Add peco change directory mapped to Ctrl + F. Wasn't able to find a package for this
+
+## Example in iterm2
+![!oh-my-zsh screenshot](./images/screenshot-1.png)
