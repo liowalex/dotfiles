@@ -5,6 +5,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -66,7 +68,7 @@ ZSH_THEME="robbyrussell"
 # You can set one of the optional three formats:
 # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
+# see 'man strftime' for details
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
@@ -124,6 +126,10 @@ alias la="ls -A"
 alias ll="exa -l -g --icons"
 alias lt="exa --tree --level=2 -a"
 alias lla="ll -A"
+
+# ssh agent switch commands (for using multiple keys with multiple github accts)
+alias ssh-add-public="ssh-add -D; ssh-add ~/.ssh/id_ed25519"
+alias ssh-add-private="ssh-add -D; ssh-add ~/.ssh/id_ed25519_30yo-without-401k"
 
 # git commands
 alias g="git"
