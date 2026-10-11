@@ -79,10 +79,12 @@ alias gp="git pull"
 alias glo="git log --graph --decorate --pretty=oneline --abbrev-commit"
 
 # local AI services (launchd agents in ~/Library/LaunchAgents)
-# stop lasts until next login; start/stop don't change whether they run at login
+# start/stop persist across logins: stop also disables the agent, so it stays
+# off after a reboot until you start it again; start re-enables it
 _agent_start() {
   local plist="$HOME/Library/LaunchAgents/$1.plist"
   [[ -f "$plist" ]] || { echo "no launch agent at $plist"; return 1; }
+  launchctl enable "gui/$(id -u)/$1"
   if launchctl print "gui/$(id -u)/$1" &>/dev/null; then
     echo "$1 already loaded"
   else
@@ -90,20 +92,19 @@ _agent_start() {
   fi
 }
 _agent_stop() {
+  launchctl disable "gui/$(id -u)/$1"
   if launchctl print "gui/$(id -u)/$1" &>/dev/null; then
-    launchctl bootout "gui/$(id -u)/$1" && echo "$1 stopped"
+    launchctl bootout "gui/$(id -u)/$1" && echo "$1 stopped (stays off across logins)"
   else
-    echo "$1 not running"
+    echo "$1 not running (now stays off across logins)"
   fi
 }
 alias llama-start="_agent_start local.llama-server"
 alias llama-stop="_agent_stop local.llama-server"
 alias hermes-start="_agent_start ai.hermes.gateway"
 alias hermes-stop="_agent_stop ai.hermes.gateway"
-# gud agent loop: unlike the above, start/stop also persist across logins
-# (launchctl enable/disable), so an unattended loop never starts by surprise
-alias loop-start='launchctl enable "gui/$(id -u)/tech.gud.agentloop" && _agent_start tech.gud.agentloop'
-alias loop-stop='_agent_stop tech.gud.agentloop; launchctl disable "gui/$(id -u)/tech.gud.agentloop"'
+alias loop-start="_agent_start tech.gud.agentloop"
+alias loop-stop="_agent_stop tech.gud.agentloop"
 alias ai-status="launchctl list | grep -E 'llama|hermes|tech.gud' || echo 'none running'"
 
 # zsh-autosuggestions color
