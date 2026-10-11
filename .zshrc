@@ -100,8 +100,10 @@ alias llama-start="_agent_start local.llama-server"
 alias llama-stop="_agent_stop local.llama-server"
 alias hermes-start="_agent_start ai.hermes.gateway"
 alias hermes-stop="_agent_stop ai.hermes.gateway"
-alias loop-start="_agent_start tech.gud.agentloop"
-alias loop-stop="_agent_stop tech.gud.agentloop"
+# gud agent loop: unlike the above, start/stop also persist across logins
+# (launchctl enable/disable), so an unattended loop never starts by surprise
+alias loop-start='launchctl enable "gui/$(id -u)/tech.gud.agentloop" && _agent_start tech.gud.agentloop'
+alias loop-stop='_agent_stop tech.gud.agentloop; launchctl disable "gui/$(id -u)/tech.gud.agentloop"'
 alias ai-status="launchctl list | grep -E 'llama|hermes|tech.gud' || echo 'none running'"
 
 # zsh-autosuggestions color
