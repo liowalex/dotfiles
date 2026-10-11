@@ -17,7 +17,7 @@ Configuration files for current dev environment (Apple Silicon macOS, iTerm2, zs
    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting $C/plugins/zsh-syntax-highlighting
    git clone --depth=1 https://github.com/zsh-users/zsh-completions $C/plugins/zsh-completions
    ```
-5. Symlink configs: `ln -sf ~/workspaces/dotfiles/.zshrc ~/.zshrc && ln -sf ~/workspaces/dotfiles/.p10k.zsh ~/.p10k.zsh`
+5. Symlink configs: `ln -sf ~/workspaces/dotfiles/.zshrc ~/.zshrc && ln -sf ~/workspaces/dotfiles/.p10k.zsh ~/.p10k.zsh && mkdir -p ~/.config/git && ln -sf ~/workspaces/dotfiles/git/ignore ~/.config/git/ignore`
 6. Fonts: install MesloLGS NF (or run `p10k configure`, which offers to install it)
 7. Runtimes: `mise use -g node@lts python@3.14`
 8. Nix + devenv: `curl -fsSL https://install.determinate.systems/nix | sh -s -- install`, then `nix profile add nixpkgs#devenv`

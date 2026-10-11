@@ -1,0 +1,7 @@
+# Global git ignores (symlinked to ~/.config/git/ignore, which git reads by default)
+
+# Claude Code worktrees live inside each repo; keep them out of every repo's status
+.claude/worktrees/
+
+# macOS
+.DS_Store
