@@ -127,7 +127,7 @@
     "Green Component" : 0.4823529411764706
   },
   "Use Italic Font" : true,
-  "Unlimited Scrollback" : false,
+  "Unlimited Scrollback" : true,
   "Keyboard Map" : {
     "0x33-0x200000-0x0" : {
       "Action" : 12,

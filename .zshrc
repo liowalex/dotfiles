@@ -5,129 +5,69 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# Homebrew PATH is set in ~/.zprofile
 
-# Path to your oh-my-zsh installation.
+# ---------------------------------------------------------------------------
+# oh-my-zsh
+# ---------------------------------------------------------------------------
 export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+zstyle ':omz:update' mode reminder
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+# zsh-completions must be on fpath before oh-my-zsh runs compinit
+fpath+=${ZSH_CUSTOM:-$ZSH/custom}/plugins/zsh-completions/src
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions web-search zsh-peco-history)
+# zsh-syntax-highlighting must stay last
+plugins=(git z web-search zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+# ---------------------------------------------------------------------------
+# History: keep (practically) everything, forever
+# ---------------------------------------------------------------------------
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=1000000
+SAVEHIST=1000000
+setopt EXTENDED_HISTORY        # save timestamp + duration
+setopt INC_APPEND_HISTORY      # write immediately, not on shell exit
+setopt SHARE_HISTORY           # share across open tabs
+setopt HIST_IGNORE_DUPS        # skip immediate repeats
+setopt HIST_IGNORE_SPACE       # prefix a command with a space to keep it out
+setopt HIST_REDUCE_BLANKS
+HIST_STAMPS="yyyy-mm-dd"
 
-# export MANPATH="/usr/local/man:$MANPATH"
+# ---------------------------------------------------------------------------
+# Tooling
+# ---------------------------------------------------------------------------
+export EDITOR="code --wait"
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+# Claude Code (native install: curl -fsSL https://claude.ai/install.sh | bash)
+export PATH="$HOME/.local/bin:$PATH"
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+# mise: Node / Python versions (mise use -g node@lts, mise use python@3.13)
+command -v mise >/dev/null && eval "$(mise activate zsh)"
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+# direnv: auto-activate devenv / .envrc when you cd into a project
+command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# fzf: Ctrl-R fuzzy history, Ctrl-T file picker, Alt-C fuzzy cd
+command -v fzf >/dev/null && source <(fzf --zsh)
 
-local brew_path="/opt/homebrew/bin"
-local brew_opt_path="/opt/homebrew/opt"
-local nvm_path="$HOME/.nvm"
-
-export PATH="${brew_path}:${PATH}"
-export NVM_DIR="${nvm_path}"
-
-[ -s "${brew_opt_path}/nvm/nvm.sh" ] && \. "${brew_opt_path}/nvm/nvm.sh"  # This loads nvm
-[ -s "${brew_opt_path}/nvm/etc/bash_completion.d/nvm" ] && \. "${brew_opt_path}/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-source ~/powerlevel10k/powerlevel10k.zsh-theme
-
-# aliases
+# ---------------------------------------------------------------------------
+# Aliases
+# ---------------------------------------------------------------------------
 alias ls="ls -p -G"
 alias la="ls -A"
-alias ll="exa -l -g --icons"
-alias lt="exa --tree --level=2 -a"
+alias ll="eza -l -g --icons --git"
 alias lla="ll -A"
+alias lt="eza --tree --level=2 -a --ignore-glob=.git"
+
+alias ws="cd ~/workspaces"
 
 # ssh agent switch commands (for using multiple keys with multiple github accts)
 alias ssh-add-public="ssh-add -D; ssh-add ~/.ssh/id_ed25519"
 alias ssh-add-private="ssh-add -D; ssh-add ~/.ssh/id_ed25519_30yo-without-401k"
+alias ssh-add-owl="ssh-add -D; ssh-add ~/.ssh/id_ed25519_the0w1"
 
 # git commands
 alias g="git"
@@ -138,20 +78,34 @@ alias gl="git log"
 alias gp="git pull"
 alias glo="git log --graph --decorate --pretty=oneline --abbrev-commit"
 
-# To customize prompt, run `p10k configure` or edit ~/.oh-my-zsh/.p10k.zsh.
-# Power Level 10k used for customizing the
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# local AI services (launchd agents in ~/Library/LaunchAgents)
+# stop lasts until next login; start/stop don't change whether they run at login
+_agent_start() {
+  local plist="$HOME/Library/LaunchAgents/$1.plist"
+  [[ -f "$plist" ]] || { echo "no launch agent at $plist"; return 1; }
+  if launchctl print "gui/$(id -u)/$1" &>/dev/null; then
+    echo "$1 already loaded"
+  else
+    launchctl bootstrap "gui/$(id -u)" "$plist" && echo "$1 started"
+  fi
+}
+_agent_stop() {
+  if launchctl print "gui/$(id -u)/$1" &>/dev/null; then
+    launchctl bootout "gui/$(id -u)/$1" && echo "$1 stopped"
+  else
+    echo "$1 not running"
+  fi
+}
+alias llama-start="_agent_start local.llama-server"
+alias llama-stop="_agent_stop local.llama-server"
+alias hermes-start="_agent_start ai.hermes.gateway"
+alias hermes-stop="_agent_stop ai.hermes.gateway"
+alias loop-start="_agent_start tech.gud.agentloop"
+alias loop-stop="_agent_stop tech.gud.agentloop"
+alias ai-status="launchctl list | grep -E 'llama|hermes|tech.gud' || echo 'none running'"
 
-# z jump command (https://github.com/rupa/z)
-. ~/.oh-my-zsh/z.sh
-
-# zsh-autosuggestion
-# change the color of the autosuggestion
+# zsh-autosuggestions color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=8,bg=cyan,bold,underline"
 
-# zsh-completions
-fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
-
-# zsh-syntax-highlighting
-# must be sourced near the end of the ./zshrc file
-source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

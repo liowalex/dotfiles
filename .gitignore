@@ -12,6 +12,9 @@
 # Includelist files and folders
 !.zshrc
 !.p10k.zsh
+!Brewfile
+!iterm2-studiolight-profile.json
+!vscode-StudioLight.code-profile
 !/images/
 !/.oh-my-zsh/
 !/powerlevel10k/
