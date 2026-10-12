@@ -18,6 +18,9 @@ brew "ripgrep"     # rg: fast grep
 brew "fd"          # fast find
 brew "bat"         # cat with syntax highlighting
 
+# Mobile
+brew "cocoapods"   # iOS native deps; Expo `run:ios` runs pod install
+
 # Apps
 cask "visual-studio-code"
 cask "orbstack"    # Docker engine + CLI
