@@ -20,7 +20,6 @@ brew "bat"         # cat with syntax highlighting
 
 # Mobile
 brew "cocoapods"   # iOS native deps; Expo `run:ios` runs pod install
-brew "xcodes"      # install/switch Xcode versions from the CLI (Apple ID login)
 
 # Apps
 cask "visual-studio-code"
